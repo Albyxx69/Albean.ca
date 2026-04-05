@@ -752,6 +752,54 @@
     border-color: var(--white);
   }
 
+  /* PRICING TOGGLE */
+  .pricing-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .toggle-track {
+    position: relative;
+    display: inline-flex;
+    background: var(--off-white);
+    border: 1px solid var(--warm-grey);
+    border-radius: 40px;
+    padding: 4px;
+  }
+
+  .toggle-pill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    background: var(--dark);
+    border-radius: 36px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .toggle-option {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 36px;
+    cursor: none;
+    transition: color 0.3s;
+    color: var(--mid-grey);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .toggle-option.active { color: var(--white); }
+
+  .packages-panel { display: none; }
+  .packages-panel.active { display: block; }
+
   /* GALLERY */
   #gallery {
     background: var(--off-white);
@@ -1222,7 +1270,7 @@
     <li><a href="#packages">Packages</a></li>
     <li><a href="#gallery">Gallery</a></li>
   </ul>
-  <a href="#contact" class="nav-cta">Book Now</a>
+  <a href="#contact" class="nav-cta">Contact Us</a>
 </nav>
 
 <!-- BOOKING BANNER -->
@@ -1304,10 +1352,7 @@
   </div>
   <div class="about-right reveal">
     <div class="about-image-block">
-      <div class="about-image-placeholder">
-        <span class="icon">🎧</span>
-        <p>Your photo here</p>
-      </div>
+      <img src="images/AZ.PNG" alt="Albean DJ" style="width:100%; height:100%; object-fit:cover; border-radius:4px; display:block;">
     </div>
     <div class="about-accent-box">
       <div class="num">100%</div>
@@ -1352,58 +1397,165 @@
     <p style="font-size:14px; font-weight:300; color:var(--mid-grey); margin-top:20px; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.8;">No hidden fees. No surprises. Choose the package that fits your event and let's make something unforgettable.</p>
   </div>
 
-  <div class="packages-grid reveal">
-
-    <!-- Essential -->
-    <div class="package-card">
-      <p class="package-name">Essential</p>
-      <div class="package-price"><sup>$</sup>499</div>
-      <p class="package-tagline">Perfect for socials & smaller events</p>
-      <ul class="package-features">
-        <li>Up to 4 hours of music</li>
-        <li>Custom playlist consultation</li>
-        <li>Professional sound system</li>
-        <li>Basic lighting setup</li>
-        <li>MC announcements</li>
-        <li>Setup & teardown included</li>
-      </ul>
-      <a href="#contact" class="package-btn">Book Essential</a>
+  <!-- Event type toggle -->
+  <div class="pricing-toggle reveal">
+    <div class="toggle-track" id="pricingToggle">
+      <div class="toggle-pill" id="togglePill"></div>
+      <span class="toggle-option active" data-panel="weddings">Weddings</span>
+      <span class="toggle-option" data-panel="socials">Socials</span>
+      <span class="toggle-option" data-panel="private">Private Events</span>
     </div>
+  </div>
 
-    <!-- Social — Featured -->
-    <div class="package-card featured">
-      <div class="package-badge">Most Popular</div>
-      <p class="package-name">Social</p>
-      <div class="package-price"><sup>$</sup>899</div>
-      <p class="package-tagline">Full socials, corporate & grad events</p>
-      <ul class="package-features">
-        <li>Up to 6 hours of music</li>
-        <li>Custom playlist consultation</li>
-        <li>Premium sound system</li>
-        <li>Full intelligent light show</li>
-        <li>MC hosting & announcements</li>
-        <li>1 pre-event planning meeting</li>
-        <li>Setup & teardown included</li>
-      </ul>
-      <a href="#contact" class="package-btn">Book Social</a>
+  <!-- WEDDINGS -->
+  <div class="packages-panel active reveal" id="panel-weddings">
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <p class="package-name">Ceremony</p>
+        <div class="package-price"><sup>$</sup>799</div>
+        <p class="package-tagline">Ceremony music & PA coverage</p>
+        <ul class="package-features">
+          <li>Up to 3 hours of coverage</li>
+          <li>Ceremony music consultation</li>
+          <li>Professional sound system</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Processional & recessional</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Ceremony</a>
+      </div>
+
+      <div class="package-card featured">
+        <div class="package-badge">Most Popular</div>
+        <p class="package-name">Full Day</p>
+        <div class="package-price"><sup>$</sup>1,399</div>
+        <p class="package-tagline">Ceremony + cocktail hour + reception</p>
+        <ul class="package-features">
+          <li>Up to 8 hours of coverage</li>
+          <li>Ceremony & reception music</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Cocktail & dinner music</li>
+          <li>2 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Full Day</a>
+      </div>
+
+      <div class="package-card">
+        <p class="package-name">Premier Wedding</p>
+        <div class="package-price" style="font-size:32px; padding-top:8px; padding-bottom:4px;">Available<br>upon request</div>
+        <p class="package-tagline">The complete wedding experience — includes everything in the Social package</p>
+        <ul class="package-features">
+          <li>Up to 10 hours of coverage</li>
+          <li>Full ceremony to last dance</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>2 wireless microphones</li>
+          <li>Photo booth music integration</li>
+          <li>3 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Get a Quote</a>
+      </div>
+
     </div>
+  </div>
 
-    <!-- Premier -->
-    <div class="package-card">
-      <p class="package-name">Premier</p>
-      <div class="package-price"><sup>$</sup>1,399</div>
-      <p class="package-tagline">Weddings & large-scale events</p>
-      <ul class="package-features">
-        <li>Up to 8 hours of music</li>
-        <li>Ceremony + reception coverage</li>
-        <li>Premium sound system</li>
-        <li>Full intelligent light show</li>
-        <li>Wireless microphone (PA)</li>
-        <li>2 pre-event planning meetings</li>
-        <li>Cocktail & dinner music</li>
-        <li>Setup & teardown included</li>
-      </ul>
-      <a href="#contact" class="package-btn">Book Premier</a>
+  <!-- SOCIALS -->
+  <div class="packages-panel reveal" id="panel-socials">
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <p class="package-name">Essential</p>
+        <div class="package-price"><sup>$</sup>499</div>
+        <p class="package-tagline">Perfect for smaller socials & parties</p>
+        <ul class="package-features">
+          <li>Up to 4 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Professional sound system</li>
+          <li>Basic lighting setup</li>
+          <li>MC announcements</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Essential</a>
+      </div>
+
+      <div class="package-card featured">
+        <div class="package-badge">Most Popular</div>
+        <p class="package-name">Social</p>
+        <div class="package-price"><sup>$</sup>899</div>
+        <p class="package-tagline">Full socials, grad dances & parties</p>
+        <ul class="package-features">
+          <li>Up to 6 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>1 pre-event planning meeting</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Social</a>
+      </div>
+
+      <div class="package-card">
+        <p class="package-name">Premier Social</p>
+        <div class="package-price"><sup>$</sup>1,299</div>
+        <p class="package-tagline">Large-scale socials & milestone events</p>
+        <ul class="package-features">
+          <li>Up to 8 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>Wireless microphone (PA)</li>
+          <li>2 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Premier</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRIVATE EVENTS -->
+  <div class="packages-panel reveal" id="panel-private">
+    <div class="packages-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto;">
+
+      <div class="package-card">
+        <p class="package-name">Essential</p>
+        <div class="package-price"><sup>$</sup>699</div>
+        <p class="package-tagline">Corporate parties & small private events</p>
+        <ul class="package-features">
+          <li>Up to 4 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Professional sound system</li>
+          <li>Basic lighting setup</li>
+          <li>MC announcements</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Essential</a>
+      </div>
+
+      <div class="package-card featured">
+        <p class="package-name">Tailored</p>
+        <div class="package-price" style="font-size:32px; padding-top:8px; padding-bottom:4px;">Contact<br>for details</div>
+        <p class="package-tagline">Fundraisers, galas & large-scale private events</p>
+        <ul class="package-features">
+          <li>Flexible hours & coverage</li>
+          <li>Custom branded playlist</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Get in Touch</a>
+      </div>
+
     </div>
   </div>
 
@@ -1421,37 +1573,23 @@
   </div>
   <div class="gallery-grid reveal">
     <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <span class="icon">📸</span>
-        <p>Add your best event photo here</p>
-      </div>
+      <img src="images/DJing.jpg" alt="DJ set" style="width:100%; height:100%; object-fit:cover; display:block;">
       <div class="gallery-overlay"></div>
     </div>
     <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <span class="icon">🎵</span>
-        <p>Event photo</p>
-      </div>
+      <img src="images/Emptyfloor.jpg" alt="Dance floor" style="width:100%; height:100%; object-fit:cover; display:block;">
       <div class="gallery-overlay"></div>
     </div>
     <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <span class="icon">🎉</span>
-        <p>Event photo</p>
-      </div>
+      <img src="images/setup.jpg" alt="DJ setup" style="width:100%; height:100%; object-fit:cover; display:block;">
       <div class="gallery-overlay"></div>
     </div>
     <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <span class="icon">💫</span>
-        <p>Event photo</p>
-      </div>
+      <img src="images/setup2.jpg" alt="DJ setup" style="width:100%; height:100%; object-fit:cover; display:block;">
       <div class="gallery-overlay"></div>
     </div>
     <div class="gallery-item">
-      <div class="gallery-placeholder">
-        <span class="icon">🎶</span>
-        <p>Event photo</p>
+      <img src="images/IMG_6494.PNG" alt="Event photo" style="width:100%; height:100%; object-fit:cover; display:block;">
       </div>
       <div class="gallery-overlay"></div>
     </div>
@@ -1481,7 +1619,6 @@
       <p class="testimonial-author">— Amanda T., Corporate Event 2025</p>
     </div>
   </div>
-  <p style="font-size:11px; color:var(--mid-grey); letter-spacing:0.1em; margin-top:40px; opacity:0.6;">* Placeholder testimonials — replace with real reviews as you collect them</p>
 </section>
 
 <!-- CONTACT -->
@@ -1503,28 +1640,39 @@
         <span class="contact-info-label">Availability</span>
         <span class="contact-info-value">Weekends & select weekdays</span>
       </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Email</span>
+        <span class="contact-info-value"><a href="mailto:dj.albean@gmail.com" style="color:inherit; text-decoration:none;">dj.albean@gmail.com</a></span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Call / Text</span>
+        <span class="contact-info-value"><a href="tel:2049997960" style="color:inherit; text-decoration:none;">204-999-7960</a></span>
+      </div>
     </div>
   </div>
 
-  <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+  <form class="contact-form reveal" action="https://formsubmit.co/dj.albean@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="New Booking Inquiry — Albean">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="">
     <div class="form-row">
       <div class="form-field">
         <label>First Name</label>
-        <input type="text" placeholder="Your first name">
+        <input type="text" name="first_name" placeholder="Your first name">
       </div>
       <div class="form-field">
         <label>Last Name</label>
-        <input type="text" placeholder="Your last name">
+        <input type="text" name="last_name" placeholder="Your last name">
       </div>
     </div>
     <div class="form-field">
       <label>Email</label>
-      <input type="email" placeholder="your@email.com">
+      <input type="email" name="email" placeholder="your@email.com">
     </div>
     <div class="form-row">
       <div class="form-field">
         <label>Event Type</label>
-        <select>
+        <select name="event_type">
           <option value="">Select event type</option>
           <option>Wedding</option>
           <option>Manitoba Social</option>
@@ -1536,22 +1684,23 @@
       </div>
       <div class="form-field">
         <label>Event Date</label>
-        <input type="date">
+        <input type="date" name="event_date">
       </div>
     </div>
     <div class="form-field">
-      <label>Package Interest</label>
-      <select>
-        <option value="">Select a package</option>
-        <option>Essential — $499</option>
-        <option>Social — $899</option>
-        <option>Premier — $1,399</option>
-        <option>Not sure yet</option>
+      <label>Party Size</label>
+      <select name="party_size">
+        <option value="">Approximate guest count</option>
+        <option>Under 50</option>
+        <option>50 – 100</option>
+        <option>100 – 200</option>
+        <option>200 – 300</option>
+        <option>300+</option>
       </select>
     </div>
     <div class="form-field">
       <label>Message</label>
-      <textarea placeholder="Tell me about your event — venue, expected guest count, anything you'd like me to know…"></textarea>
+      <textarea name="message" placeholder="Tell me about your event — venue, expected guest count, anything you'd like me to know…"></textarea>
     </div>
     <button type="submit" class="form-submit">Send Inquiry →</button>
   </form>
@@ -1588,7 +1737,7 @@
     requestAnimationFrame(animateRing);
   })();
 
-  document.querySelectorAll('a, button').forEach(el => {
+  document.querySelectorAll('a, button, .toggle-option').forEach(el => {
     el.addEventListener('mouseenter', () => {
       ring.style.width = '56px'; ring.style.height = '56px';
       ring.style.borderColor = 'rgba(200,169,110,0.7)';
@@ -1616,6 +1765,40 @@
   }, { threshold: 0.1 });
 
   reveals.forEach(r => observer.observe(r));
+
+  // Pricing toggle
+  (function() {
+    const options = document.querySelectorAll('.toggle-option');
+    const pill = document.getElementById('togglePill');
+
+    function updatePill(activeEl) {
+      const track = document.getElementById('pricingToggle');
+      const trackRect = track.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      pill.style.width = elRect.width + 'px';
+      pill.style.transform = 'translateX(' + (elRect.left - trackRect.left - 4) + 'px)';
+    }
+
+    function setActive(option) {
+      options.forEach(o => o.classList.remove('active'));
+      option.classList.add('active');
+      updatePill(option);
+
+      const panelId = 'panel-' + option.dataset.panel;
+      document.querySelectorAll('.packages-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    // Init pill position on load
+    window.addEventListener('load', () => {
+      const active = document.querySelector('.toggle-option.active');
+      if (active) updatePill(active);
+    });
+
+    options.forEach(option => {
+      option.addEventListener('click', () => setActive(option));
+    });
+  })();
 
   // Form submit
   function handleSubmit(e) {
