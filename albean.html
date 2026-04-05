@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ALBEAN — DJ & Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Suisse+Int%27l:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; max-width: 100%; }
+
+  :root {
+    --white: #FAFAF8;
+    --off-white: #F4F2EE;
+    --warm-grey: #E8E4DE;
+    --mid-grey: #B8B2A8;
+    --dark: #1A1814;
+    --ink: #2C2820;
+    --accent: #C8A96E;
+    --accent-light: #E8D5A8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(200, 169, 110, 0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.3s, height 0.3s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 56px;
+    mix-blend-mode: normal;
+    transition: background 0.4s ease, padding 0.4s ease, top 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(250, 250, 248, 0.92);
+    backdrop-filter: blur(16px);
+    padding: 16px 56px;
+    top: 30px;
+    border-bottom: 1px solid var(--warm-grey);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-decoration: none;
+    color: var(--dark);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    opacity: 0.65;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    background: var(--dark);
+    padding: 10px 24px;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--accent); color: var(--dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 180px 56px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 10vw, 140px);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.35s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink);
+    opacity: 0;
+    max-width: 340px;
+    margin-top: 40px;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+
+  .btn-primary {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    background: var(--dark);
+    padding: 16px 36px;
+    border-radius: 2px;
+    transition: background 0.25s, color 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--accent); color: var(--dark); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s, gap 0.2s;
+  }
+
+  .btn-ghost:hover { opacity: 1; gap: 14px; }
+  .btn-ghost::after { content: '→'; }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--off-white) 0%, var(--warm-grey) 100%);
+    z-index: 1;
+  }
+
+  .hero-visual {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.8s forwards;
+  }
+
+  .hero-graphic {
+    width: 480px;
+    height: 480px;
+    position: relative;
+  }
+
+  /* Animated vinyl record */
+  .vinyl {
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      #1a1814 0%, #1a1814 12%,
+      #2c2820 12%, #2c2820 14%,
+      #1a1814 14%, #1a1814 30%,
+      #222018 30%, #222018 32%,
+      #1a1814 32%, #1a1814 48%,
+      #222018 48%, #222018 50%,
+      #1a1814 50%
+    );
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 12s linear infinite;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+  }
+
+  .vinyl::after {
+    content: '';
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    background: radial-gradient(circle, var(--accent-light) 0%, var(--accent) 60%, var(--dark) 61%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .vinyl-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    animation: spinReverse 12s linear infinite;
+  }
+
+  .vinyl-label span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--dark);
+    text-transform: uppercase;
+  }
+
+  .hero-stat {
+    position: absolute;
+    background: var(--white);
+    padding: 20px 24px;
+    border-radius: 4px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    opacity: 0;
+    animation: fadeUp 0.7s ease 1.2s forwards;
+  }
+
+  .hero-stat:nth-child(1) { bottom: 20%; left: 5%; }
+  .hero-stat:nth-child(2) { top: 22%; right: 8%; animation-delay: 1.4s; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    margin-top: 4px;
+  }
+
+  .hero-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--warm-grey);
+  }
+
+  /* BOOKING BANNER */
+  .booking-banner {
+    background: var(--accent);
+    padding: 7px 24px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+  }
+
+  .booking-banner p {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .booking-banner a {
+    color: var(--dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 10px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .booking-banner a:hover { opacity: 1; }
+
+  /* MARQUEE */
+  .marquee-strip {
+    background: var(--dark);
+    padding: 18px 0;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.5;
+    padding: 0 40px;
+    flex-shrink: 0;
+  }
+
+  .marquee-dot {
+    color: var(--accent);
+    opacity: 1 !important;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 140px 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .about-left .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 32px;
+  }
+
+  .about-title em { font-style: italic; }
+
+  .about-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--ink);
+    opacity: 0.75;
+    margin-bottom: 20px;
+  }
+
+  .about-right {
+    position: relative;
+  }
+
+  .about-image-block {
+    aspect-ratio: 3/4;
+    background: var(--off-white);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .about-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--mid-grey);
+  }
+
+  .about-image-placeholder .icon {
+    font-size: 48px;
+    opacity: 0.3;
+  }
+
+  .about-image-placeholder p {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .about-accent-box {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    background: var(--accent);
+    color: var(--dark);
+    padding: 28px 32px;
+    border-radius: 4px;
+    z-index: 2;
+  }
+
+  .about-accent-box .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .about-accent-box .label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    opacity: 0.8;
+  }
+
+  /* SERVICES */
+  #services {
+    background: var(--off-white);
+    padding: 140px 56px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--dark);
+  }
+
+  .section-title em { font-style: italic; }
+
+  .section-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink);
+    opacity: 0.65;
+    max-width: 320px;
+    text-align: right;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 52px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+
+  .service-card:hover { transform: translateY(-4px); }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.35s ease;
+    transform-origin: left;
+  }
+
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    color: var(--warm-grey);
+    line-height: 1;
+    margin-bottom: 24px;
+    transition: color 0.3s;
+  }
+
+  .service-card:hover .service-num { color: var(--accent-light); }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink);
+    opacity: 0.65;
+  }
+
+  /* PACKAGES */
+  #packages {
+    padding: 140px 56px;
+  }
+
+  .packages-intro {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .package-card {
+    border: 1px solid var(--warm-grey);
+    border-radius: 6px;
+    padding: 52px 40px;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+
+  .package-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+
+  .package-card.featured {
+    background: var(--dark);
+    border-color: var(--dark);
+    color: var(--white);
+  }
+
+  .package-card.featured:hover { border-color: var(--accent); }
+
+  .package-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--dark);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+
+  .package-name {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .package-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .package-card.featured .package-price { color: var(--white); }
+
+  .package-price sup {
+    font-size: 24px;
+    vertical-align: super;
+  }
+
+  .package-tagline {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--mid-grey);
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--warm-grey);
+  }
+
+  .package-card.featured .package-tagline {
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .package-features {
+    list-style: none;
+    margin-bottom: 40px;
+  }
+
+  .package-features li {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--warm-grey);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+  }
+
+  .package-card.featured .package-features li {
+    border-color: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .package-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .package-btn {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px;
+    border-radius: 2px;
+    border: 1px solid var(--dark);
+    color: var(--dark);
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .package-btn:hover { background: var(--dark); color: var(--white); }
+
+  .package-card.featured .package-btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--dark);
+  }
+
+  .package-card.featured .package-btn:hover {
+    background: var(--white);
+    border-color: var(--white);
+  }
+
+  /* PRICING TOGGLE */
+  .pricing-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .toggle-track {
+    position: relative;
+    display: inline-flex;
+    background: var(--off-white);
+    border: 1px solid var(--warm-grey);
+    border-radius: 40px;
+    padding: 4px;
+  }
+
+  .toggle-pill {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    background: var(--dark);
+    border-radius: 36px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .toggle-option {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 36px;
+    cursor: none;
+    transition: color 0.3s;
+    color: var(--mid-grey);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .toggle-option.active { color: var(--white); }
+
+  .packages-panel { display: none; }
+  .packages-panel.active { display: block; }
+
+  /* GALLERY */
+  #gallery {
+    background: var(--off-white);
+    padding: 140px 56px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 260px 260px;
+    gap: 12px;
+    margin-top: 60px;
+  }
+
+  .gallery-item {
+    background: var(--warm-grey);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--mid-grey);
+    padding: 32px;
+    text-align: center;
+  }
+
+  .gallery-placeholder .icon { font-size: 32px; opacity: 0.4; }
+
+  .gallery-placeholder p {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--dark);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-item:hover .gallery-overlay { opacity: 0.3; }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 140px 56px;
+    text-align: center;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+    text-align: left;
+  }
+
+  .testimonial-card {
+    padding: 40px;
+    background: var(--off-white);
+    border-radius: 6px;
+  }
+
+  .testimonial-stars {
+    color: var(--accent);
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--dark);
+    margin-bottom: 28px;
+  }
+
+  .testimonial-author {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--dark);
+    padding: 140px 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .contact-left .section-label { color: var(--accent); }
+
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .contact-title em { font-style: italic; color: var(--accent); }
+
+  .contact-text {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 48px;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .contact-info-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .contact-info-value {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.25s, background 0.25s;
+    width: 100%;
+  }
+
+  .form-field select option { background: var(--dark); }
+
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .form-field textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dark);
+    background: var(--accent);
+    border: none;
+    padding: 18px 40px;
+    border-radius: 2px;
+    cursor: none;
+    transition: background 0.25s, transform 0.2s;
+    align-self: flex-start;
+  }
+
+  .form-submit:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: #111008;
+    padding: 48px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .footer-copy {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .footer-links a {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(255,255,255,0.25);
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes spinReverse {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Divider */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    margin: 28px 0;
+  }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+
+    /* Prevent horizontal overflow globally */
+    html, body { overflow-x: hidden; }
+
+    /* Nav */
+    nav, nav.scrolled { padding: 18px 24px; top: 28px; }
+    .nav-links { display: none; }
+    .nav-cta { padding: 9px 18px; font-size: 10px; }
+
+    .booking-banner p { font-size: 9px; letter-spacing: 0.14em; }
+
+    /* Hero: stack vertically */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 100svh;
+    }
+
+    .hero-left {
+      padding: 140px 24px 40px;
+      order: 1;
+    }
+
+    .hero-title { font-size: clamp(52px, 15vw, 80px); }
+    .hero-sub { max-width: 100%; font-size: 14px; }
+
+    .hero-right {
+      order: 2;
+      height: 300px;
+      min-height: unset;
+    }
+
+    .hero-graphic { width: 300px; height: 300px; }
+
+    .vinyl { width: 240px; height: 240px; }
+
+    .hero-stat { padding: 14px 18px; }
+    .hero-stat:nth-child(1) { bottom: 14%; left: 4%; }
+    .hero-stat:nth-child(2) { top: 12%; right: 4%; }
+    .stat-num { font-size: 26px; }
+
+    /* About */
+    #about {
+      grid-template-columns: 1fr;
+      padding: 80px 24px;
+      gap: 48px;
+    }
+
+    .about-right { padding-bottom: 48px; }
+
+    .about-accent-box {
+      right: 0;
+      bottom: -10px;
+    }
+
+    /* Services */
+    #services { padding: 80px 24px; }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .section-desc { text-align: left; max-width: 100%; }
+
+    .services-grid { grid-template-columns: 1fr; }
+
+    .service-card { padding: 40px 28px; }
+
+    /* Packages */
+    #packages { padding: 80px 24px; }
+
+    .packages-grid {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+    }
+
+    .package-card { padding: 44px 28px; }
+
+    /* Gallery */
+    #gallery { padding: 80px 24px; }
+
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      gap: 8px;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      grid-row: span 1;
+      height: 200px;
+    }
+
+    .gallery-item { height: 150px; }
+
+    /* Testimonials */
+    #testimonials { padding: 80px 24px; }
+
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    /* Contact */
+    #contact {
+      grid-template-columns: 1fr;
+      padding: 80px 24px;
+      gap: 52px;
+    }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    /* Footer */
+    footer {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .footer-links { justify-content: center; }
+  }
+
+  /* Extra small — iPhone SE */
+  @media (max-width: 390px) {
+    .hero-title { font-size: 48px; }
+    .nav-logo { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">ALBEAN</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Contact Us</a>
+</nav>
+
+<!-- BOOKING BANNER -->
+<div class="booking-banner">
+  <p>✦ Now Booking Summer 2026 — Dates are filling fast. <a href="#contact">Secure yours →</a></p>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Winnipeg DJ & Events</p>
+    <h1 class="hero-title">Sound<br>for <em>every</em><br>occasion.</h1>
+    <p class="hero-sub">Weddings, Manitoba Socials, and private events — elevated through music, professionalism, and a seamless experience from first contact to last song.</p>
+    <div class="hero-actions">
+      <a href="#packages" class="btn-primary">View Packages</a>
+      <a href="#contact" class="btn-ghost">Book a date</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-graphic">
+        <div class="vinyl"></div>
+        <div class="vinyl-label"><span>ALBEAN</span></div>
+        <div class="hero-stat" style="bottom: 18%; left: 2%;">
+          <div class="stat-num" style="font-size:18px; letter-spacing:2px; color:var(--dark);">★★★★★</div>
+          <div class="stat-label">Rated Service</div>
+        </div>
+        <div class="hero-stat" style="top: 20%; right: 4%;">
+          <div class="stat-num">MB</div>
+          <div class="stat-label">Based in Winnipeg</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-line"></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Weddings</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Manitoba Socials</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Corporate Events</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Grad Dances</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Private Parties</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Fundraisers</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Weddings</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Manitoba Socials</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Corporate Events</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Grad Dances</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Private Parties</span>
+    <span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Fundraisers</span>
+    <span class="marquee-item marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <p class="section-label">About Albean</p>
+    <h2 class="about-title">Music that<br><em>moves</em> people.</h2>
+    <div class="divider"></div>
+    <p class="about-text">We created Albean after going to countless weddings and socials with DJs that completely missed the mark and didn't read the room.</p>
+    <p class="about-text">We are Albert and Connor, and are passionate about creating unforgettable moments through music.</p>
+    <p class="about-text">Whether it's the first dance at your wedding, a packed dance floor at a social, or a lowkey cocktail hour at your corporate event, we tailor every set to the room and the moment.</p>
+    <p class="about-text">We meet with you, listen, and understand your music taste, your crowd, and the vibe you're going for. And yes, we also take requests.</p>
+  </div>
+  <div class="about-right reveal">
+    <div class="about-image-block">
+      <img src="images/AZ.PNG" alt="Albean DJ" style="width:100%; height:100%; object-fit:cover; border-radius:4px; display:block;">
+    </div>
+    <div class="about-accent-box">
+      <div class="num">100%</div>
+      <div class="label">Weekend availability</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label">What We Do</p>
+      <h2 class="section-title">Events we<br><em>specialize</em> in.</h2>
+    </div>
+    <p class="section-desc">From intimate ceremonies to full-scale socials, every event gets the same level of care and preparation.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3 class="service-name">Weddings</h3>
+      <p class="service-desc">Your wedding day deserves a soundtrack as perfect as the moment. We handle ceremony music, cocktail hour, dinner, and reception — seamlessly coordinated so you don't have to think about a thing.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3 class="service-name">Manitoba Socials</h3>
+      <p class="service-desc">A staple of Winnipeg culture. We know how to read a Social crowd and keep the energy up all night — from the first raffle to the last dance, the floor stays packed.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3 class="service-name">Private Events</h3>
+      <p class="service-desc">Corporate parties, grad dances, milestone birthdays, fundraisers — if you need music and professionals to run it, we're your people. Every playlist is customized to your event.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="packages-intro reveal">
+    <p class="section-label" style="display:inline-block; margin-bottom:16px;">Transparent Pricing</p>
+    <h2 class="section-title">Simple, honest<br><em>packages.</em></h2>
+    <p style="font-size:14px; font-weight:300; color:var(--mid-grey); margin-top:20px; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.8;">No hidden fees. No surprises. Choose the package that fits your event and let's make something unforgettable.</p>
+  </div>
+
+  <!-- Event type toggle -->
+  <div class="pricing-toggle reveal">
+    <div class="toggle-track" id="pricingToggle">
+      <div class="toggle-pill" id="togglePill"></div>
+      <span class="toggle-option active" data-panel="weddings">Weddings</span>
+      <span class="toggle-option" data-panel="socials">Socials</span>
+      <span class="toggle-option" data-panel="private">Private Events</span>
+    </div>
+  </div>
+
+  <!-- WEDDINGS -->
+  <div class="packages-panel active reveal" id="panel-weddings">
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <p class="package-name">Ceremony</p>
+        <div class="package-price"><sup>$</sup>799</div>
+        <p class="package-tagline">Ceremony music & PA coverage</p>
+        <ul class="package-features">
+          <li>Up to 3 hours of coverage</li>
+          <li>Ceremony music consultation</li>
+          <li>Professional sound system</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Processional & recessional</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Ceremony</a>
+      </div>
+
+      <div class="package-card featured">
+        <div class="package-badge">Most Popular</div>
+        <p class="package-name">Full Day</p>
+        <div class="package-price"><sup>$</sup>1,399</div>
+        <p class="package-tagline">Ceremony + cocktail hour + reception</p>
+        <ul class="package-features">
+          <li>Up to 8 hours of coverage</li>
+          <li>Ceremony & reception music</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Cocktail & dinner music</li>
+          <li>2 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Full Day</a>
+      </div>
+
+      <div class="package-card">
+        <p class="package-name">Premier Wedding</p>
+        <div class="package-price" style="font-size:32px; padding-top:8px; padding-bottom:4px;">Available<br>upon request</div>
+        <p class="package-tagline">The complete wedding experience — includes everything in the Social package</p>
+        <ul class="package-features">
+          <li>Up to 10 hours of coverage</li>
+          <li>Full ceremony to last dance</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>2 wireless microphones</li>
+          <li>Photo booth music integration</li>
+          <li>3 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Get a Quote</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOCIALS -->
+  <div class="packages-panel reveal" id="panel-socials">
+    <div class="packages-grid">
+
+      <div class="package-card">
+        <p class="package-name">Essential</p>
+        <div class="package-price"><sup>$</sup>499</div>
+        <p class="package-tagline">Perfect for smaller socials & parties</p>
+        <ul class="package-features">
+          <li>Up to 4 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Professional sound system</li>
+          <li>Basic lighting setup</li>
+          <li>MC announcements</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Essential</a>
+      </div>
+
+      <div class="package-card featured">
+        <div class="package-badge">Most Popular</div>
+        <p class="package-name">Social</p>
+        <div class="package-price"><sup>$</sup>899</div>
+        <p class="package-tagline">Full socials, grad dances & parties</p>
+        <ul class="package-features">
+          <li>Up to 6 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>1 pre-event planning meeting</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Social</a>
+      </div>
+
+      <div class="package-card">
+        <p class="package-name">Premier Social</p>
+        <div class="package-price"><sup>$</sup>1,299</div>
+        <p class="package-tagline">Large-scale socials & milestone events</p>
+        <ul class="package-features">
+          <li>Up to 8 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>Wireless microphone (PA)</li>
+          <li>2 pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Premier</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRIVATE EVENTS -->
+  <div class="packages-panel reveal" id="panel-private">
+    <div class="packages-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto;">
+
+      <div class="package-card">
+        <p class="package-name">Essential</p>
+        <div class="package-price"><sup>$</sup>699</div>
+        <p class="package-tagline">Corporate parties & small private events</p>
+        <ul class="package-features">
+          <li>Up to 4 hours of music</li>
+          <li>Custom playlist consultation</li>
+          <li>Professional sound system</li>
+          <li>Basic lighting setup</li>
+          <li>MC announcements</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Book Essential</a>
+      </div>
+
+      <div class="package-card featured">
+        <p class="package-name">Tailored</p>
+        <div class="package-price" style="font-size:32px; padding-top:8px; padding-bottom:4px;">Contact<br>for details</div>
+        <p class="package-tagline">Fundraisers, galas & large-scale private events</p>
+        <ul class="package-features">
+          <li>Flexible hours & coverage</li>
+          <li>Custom branded playlist</li>
+          <li>Premium sound system</li>
+          <li>Full intelligent light show</li>
+          <li>MC hosting & announcements</li>
+          <li>Wireless microphone (PA)</li>
+          <li>Pre-event planning meetings</li>
+          <li>Setup & teardown included</li>
+        </ul>
+        <a href="#contact" class="package-btn">Get in Touch</a>
+      </div>
+
+    </div>
+  </div>
+
+  <p style="text-align:center; font-size:12px; color:var(--mid-grey); margin-top:40px; letter-spacing:0.05em;">All prices in CAD. Travel within Winnipeg included. Ask about rural Manitoba pricing.</p>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label">Gallery</p>
+      <h2 class="section-title">Moments from<br><em>the floor.</em></h2>
+    </div>
+    <p class="section-desc">A glimpse into the atmosphere and energy we create together at every event.</p>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <img src="images/DJing.jpg" alt="DJ set" style="width:100%; height:100%; object-fit:cover; display:block;">
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/Emptyfloor.jpg" alt="Dance floor" style="width:100%; height:100%; object-fit:cover; display:block;">
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/setup.jpg" alt="DJ setup" style="width:100%; height:100%; object-fit:cover; display:block;">
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/setup 2.jpg" alt="DJ setup" style="width:100%; height:100%; object-fit:cover; display:block;">
+      <div class="gallery-overlay"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/IMG_6494.PNG" alt="Event photo" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+      <div class="gallery-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal">
+    <p class="section-label">Kind Words</p>
+    <h2 class="section-title">What clients<br><em>say.</em></h2>
+  </div>
+  <div class="testimonial-grid reveal">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Albean absolutely made our social. The dance floor was packed all night and he read the crowd perfectly — we couldn't have asked for more."</p>
+      <p class="testimonial-author">— Sarah & Mike, Wedding Social 2025</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Professional, responsive, and the music was exactly what we wanted. Our wedding reception was everything we dreamed of."</p>
+      <p class="testimonial-author">— Jessica & Ryan, Wedding 2025</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"We hired Albean for our company party and he was fantastic. Easy to work with and the vibe was spot on from start to finish."</p>
+      <p class="testimonial-author">— Amanda T., Corporate Event 2025</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <p class="section-label">Let's Connect</p>
+    <h2 class="contact-title">Ready to<br><em>book?</em></h2>
+    <p class="contact-text">Dates fill up fast, especially for Socials in the fall. Send us a message and we'll get back to you within 24 hours to confirm availability and answer any questions.</p>
+    <div class="contact-info">
+      <div class="contact-info-item">
+        <span class="contact-info-label">Location</span>
+        <span class="contact-info-value">Winnipeg, Manitoba</span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Response</span>
+        <span class="contact-info-value">Within 24 hours</span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Availability</span>
+        <span class="contact-info-value">Weekends & select weekdays</span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Email</span>
+        <span class="contact-info-value"><a href="mailto:dj.albean@gmail.com" style="color:inherit; text-decoration:none;">dj.albean@gmail.com</a></span>
+      </div>
+      <div class="contact-info-item">
+        <span class="contact-info-label">Call / Text</span>
+        <span class="contact-info-value"><a href="tel:2049997960" style="color:inherit; text-decoration:none;">204-999-7960</a></span>
+      </div>
+    </div>
+  </div>
+
+  <form class="contact-form reveal" action="https://formsubmit.co/dj.albean@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="New Booking Inquiry — Albean">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="">
+    <div class="form-row">
+      <div class="form-field">
+        <label>First Name</label>
+        <input type="text" name="first_name" placeholder="Your first name">
+      </div>
+      <div class="form-field">
+        <label>Last Name</label>
+        <input type="text" name="last_name" placeholder="Your last name">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="your@email.com">
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Event Type</label>
+        <select name="event_type">
+          <option value="">Select event type</option>
+          <option>Wedding</option>
+          <option>Manitoba Social</option>
+          <option>Corporate Event</option>
+          <option>Grad Dance</option>
+          <option>Private Party</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Event Date</label>
+        <input type="date" name="event_date">
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Party Size</label>
+      <select name="party_size">
+        <option value="">Approximate guest count</option>
+        <option>Under 50</option>
+        <option>50 – 100</option>
+        <option>100 – 200</option>
+        <option>200 – 300</option>
+        <option>300+</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Message</label>
+      <textarea name="message" placeholder="Tell me about your event — venue, expected guest count, anything you'd like me to know…"></textarea>
+    </div>
+    <button type="submit" class="form-submit">Send Inquiry →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">ALBEAN</span>
+  <span class="footer-copy">© 2026 Albean DJ Services. Winnipeg, MB.</span>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#packages">Packages</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  (function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll('a, button, .toggle-option').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px'; ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(200,169,110,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(200,169,110,0.4)';
+    });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(r => observer.observe(r));
+
+  // Pricing toggle
+  (function() {
+    const options = document.querySelectorAll('.toggle-option');
+    const pill = document.getElementById('togglePill');
+
+    function updatePill(activeEl) {
+      const track = document.getElementById('pricingToggle');
+      const trackRect = track.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      pill.style.width = elRect.width + 'px';
+      pill.style.transform = 'translateX(' + (elRect.left - trackRect.left - 4) + 'px)';
+    }
+
+    function setActive(option) {
+      options.forEach(o => o.classList.remove('active'));
+      option.classList.add('active');
+      updatePill(option);
+
+      const panelId = 'panel-' + option.dataset.panel;
+      document.querySelectorAll('.packages-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(panelId).classList.add('active');
+    }
+
+    // Init pill position on load
+    window.addEventListener('load', () => {
+      const active = document.querySelector('.toggle-option.active');
+      if (active) updatePill(active);
+    });
+
+    options.forEach(option => {
+      option.addEventListener('click', () => setActive(option));
+    });
+  })();
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Message Sent! ✓';
+    btn.style.background = '#4CAF50';
+    setTimeout(() => {
+      btn.textContent = 'Send Inquiry →';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
